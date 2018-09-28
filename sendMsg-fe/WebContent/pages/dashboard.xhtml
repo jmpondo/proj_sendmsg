@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="EmptyBox20"></div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
+                            <div class="Fs24 Fright MarTop10 leaden Wid70"><span class="hardblue">Recipiendaire</span></div>
+                            <div class="Fs12 Fright leaden Wid70"></div>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="EmptyBox10"></div>
+                            <div class="Fs16 Fright">
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tasks (32)</i></a>
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-bell-alt hardblue"> Messages (3)</i></a>
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-cog-alt hardblue"> Settings</i></a>
+                            </div>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                          <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Enregistrés<br/><span class="Fs24 orange">0</span></div>                                
+                                <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <div class="Container">
+                                <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">CAMPAGNE</div>
+                                <div class="Fs12 Fright leaden Wid70">Nombre total <span class="red">0</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Campagnes traitées<br/><span class="Fs24 orange">0</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Campagnes non traitées<br/><span class="Fs24 red">0</span></div>
+                                <div class="Fs12 Fright leaden Wid100 TexAlCenter">Ecart<br/><span class="Fs24 hardblue">0</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <div class="Container">
+                                <i class="icon-rocket Fs50 Fleft Wid25 red TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">SMS</div>
+                                <div class="Fs18 Fright leaden Wid70">Totally <span class="red">0</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">SMS Envoyés<br/><span class="Fs20 orange">--</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">SMS Envoyés<br/><span class="Fs20 orange">0</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">SMS reçus<br/><span class="Fs20 red">0</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">SMS Non reçus<br/><span class="Fs20 hardblue">0</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height:300px">
+                            <div class="Fs24 MarTop10 leaden Wid100 TexAlCenter">Customer Report</div>
+                            <p:chart type="pie" model="#{chartView.pieModel}" style="height:200px" responsive="true"/>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="EmptyBox10"></div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

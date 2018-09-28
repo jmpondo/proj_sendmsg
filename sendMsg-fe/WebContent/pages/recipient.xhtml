@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+       				<div>
+       					<p:growl id="growl" sticky="true" showDetail="true"/>
+       					<h:form id="frmMsg">
+       						<div>
+    							<p:commandButton process="singleDT" image="ui-icon-plus" update=":frmMsg:addRecipiendaire"  value="Creer" oncomplete="PF('addRecipiendaireDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-pencil" update=":frmUpdate:updateRecipiendaire" value="Modifier" oncomplete="PF('updateRecipiendaireDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-search" update=":frmMsg:recipiendaireDetail" value="Visualiser" oncomplete="PF('recipiendaireDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-trash" actionListener="#{recipientView.removeRecipiendaire}" update=":frmMsg:singleDT" value="Supprimer"/>
+    							
+    						</div>
+	                        <p:dataTable id="singleDT" var="r" value="#{recipientView.recipiendaireList}" selectionMode="single" selection="#{recipientView.selectedRecipiendaire}" rowKey="#{r.id}"
+	                                     rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                                     rowsPerPageTemplate="5,10,15" emptyMessage="No campagne found with given criteria" reflow="true">
+	                            <f:facet name="header">
+	                                LISTE DES RECIPIENDAIRES
+	                            </f:facet>
+	
+	                            <p:column headerText="Id" sortBy="#{r.id}">
+	                                <h:outputText value="#{r.id}" />
+	                            </p:column>
+	                             <p:column headerText="Commune" sortBy="#{r.commune}">
+	                                <h:outputText value="#{r.commune}" />
+	                            </p:column>	
+	                            <p:column headerText="Nom" sortBy="#{r.nom}">
+	                                <h:outputText value="#{r.nom}" />
+	                            </p:column>
+	                            <p:column headerText="Prenom" sortBy="#{r.prenom}">
+	                                <h:outputText value="#{r.prenom}" />
+	                            </p:column>	
+	                            <p:column headerText="PTelephone" sortBy="#{r.telephone}">
+	                                <h:outputText value="#{r.telephone}" />
+	                            </p:column>
+	                            <p:column headerText="Aspiration" sortBy="#{r.aspiration}">
+	                                <h:outputText value="#{r.aspiration}" />
+	                            </p:column>	                                                    
+	                        </p:dataTable>							
+                        <p:dialog header="INFORMATION RECIPIENDAIRE" widgetVar="recipiendaireDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="600" height="400" responsive="true">
+	                            <p:outputPanel id="recipiendaireDetail" style="text-align:center;">
+	                                <p:panelGrid  columns="2" rendered="#{not empty recipientView.selectedRecipiendaire}">
+	                                    <h:outputText value="Id:" />
+	                                    <h:outputText value="#{recipientView.selectedRecipiendaire.id}" />	
+	                                    <h:outputText value="Commune" />
+	                                    <h:outputText value="#{recipientView.selectedRecipiendaire.commune}" />	
+	                                    <h:outputText value="Nom" />
+	                                    <h:outputText value="#{recipientView.selectedRecipiendaire.nom}" />	
+	                                    <h:outputText value="Prenom" />
+	                                    <h:outputText value="#{recipientView.selectedRecipiendaire.prenom}" />
+	                                    <h:outputText value="Prenom" />
+	                                    <h:outputText value="#{recipientView.selectedRecipiendaire.telephone}" />
+	                                    <h:outputText value="Prenom" />
+	                                    <h:outputText value="#{recipientView.selectedRecipiendaire.aspiration}" />
+	                                </p:panelGrid>
+	                            </p:outputPanel>
+	                        </p:dialog>
+	                        <p:dialog header="CREATION D'UN RECIPIENDAIRE" widgetVar="addRecipiendaireDialog" modal="true"  showEffect="fade" hideEffect="fade" resizable="true" width="600" height="400" responsive="true">
+	                        	<p:outputPanel id="addRecipiendaire" style="text-align:center;">
+			                        <div class="ContainerIndent ui-fluid">
+					                	<p:panel>
+					                		<div class="Container">
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Créer une recipiendaire" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+							                                <p:inputText value="#{recipientView.recipiendaire.commune}" placeholder="Commune"/>
+							                                <p:inputText value="#{recipientView.recipiendaire.nom}" placeholder="Nom recipiendaire"/>
+							                                <p:inputText value="#{recipientView.recipiendaire.prenom}" placeholder="Prenom recipiendaire"/>
+							                                <p:inputText value="#{recipientView.recipiendaire.telephone}" placeholder="telephone"/>
+							                                 <p:inputText value="#{recipientView.recipiendaire.aspiration}" placeholder="aspiration"/>					                                
+							                            </p:panelGrid>
+							                        </div>
+							                    </div>						                   
+							                </div>
+					                   		<p:separator/>
+					                 		<div class="EmptyBox30"></div>
+			                    			<p:commandButton  value="Valider" ajax="true" actionListener ="#{recipientView.creerRecipiendaire}"/>
+			                    		</p:panel>
+					                </div>	
+	                        	</p:outputPanel>                       	
+	                   	</p:dialog>	
+	                   </h:form>	
+	                   <h:form id="frmUpdate">
+	                   			 <p:dialog header="MODIFICATION RECIPIENDAIRE" styleClass="FontBold Fs18 hardblue" widgetVar="updateRecipiendaireDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="600" height="400" responsive="true">
+	                        		<p:outputPanel id="updateRecipiendaire" style="text-align:center;">
+	                        		   <div class="ContainerIndent ui-fluid">
+					                	<p:panel>
+					                		<div class="Container">
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Modification d'un recipiendaire" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+							                                <p:inputText value="#{recipientView.selectedRecipiendaire.commune}" />	
+						                                    
+						                                    <p:inputText value="#{recipientView.selectedRecipiendaire.nom}" />	
+						                                    
+						                                    <p:inputText value="#{recipientView.selectedRecipiendaire.prenom}" />
+						                                   
+						                                    <p:inputText value="#{recipientView.selectedRecipiendaire.telephone}" />
+						                                   
+						                                    <p:inputText value="#{recipientView.selectedRecipiendaire.aspiration}" />					                                
+							                            </p:panelGrid>
+							                        </div>
+							                    </div>
+							                    
+							                </div>
+					                   		<p:separator/>
+					                 		<div class="EmptyBox30"></div>
+			                    			<p:commandButton  value="Valider" ajax="true" actionListener ="#{recipientView.updateRecipiendaire}"/>
+			                    		</p:panel>
+					                </div>		 	
+	                        	</p:outputPanel>                       	
+	                   		</p:dialog>	
+			             </h:form>
+		            </div>
+    </ui:define>
+
+</ui:composition>

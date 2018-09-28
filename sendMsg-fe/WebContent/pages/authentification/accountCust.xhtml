@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"      
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"  
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/template.xhtml">
+	   		
+  		    <ui:define name="content">
+					
+		   		<h:form>
+					<p:growl id="growl"/>
+					<p:panel header="#{msgs.Acc_entete}" style="margin-bottom:1px">
+						<p:fieldset legend="#{msgs.Acc_legend1}">	
+							<h:panelGrid columns="3">							
+						        <h:outputLabel value="#{msgs.Institut_lbl_Tel}"/>						           
+						        <p:inputText value="#{accountController.tel}" size="20" id="txtTel" required="true" requiredMessage="#{msgs.error_tel}" >
+						        	<p:ajax event="blur" listener="#{accountController.OnLoadName}" update="growl lblNom"/>
+						        </p:inputText>	
+						        <h:outputText id="lblNom" value="#{accountController.client.nomClient}"/>				        		        
+							</h:panelGrid>
+						</p:fieldset>
+						<p:fieldset legend="#{msgs.Acc_legend2}">	
+							<h:panelGrid columns="2">							
+						        <h:outputLabel value="#{msgs.Acc_lbl_sodo}"/>
+						        <p:inputText value="#{accountController.login}" size="20" id="txtLog" required="true" requiredMessage="#{msgs.error_log}" /> 
+						        <h:outputLabel value="#{msgs.Acc_lbl_pwd}"/>						           
+						        <h:inputSecret value="#{accountController.password}" size="20" id="txtPwd" required="true" requiredMessage="#{msgs.error_pwd}" />
+						         <h:outputLabel value="#{msgs.Acc_lbl_pwd}"/>						           
+						        <h:inputSecret value="#{accountController.password2}" size="20" id="txtPwd2" required="true" requiredMessage="#{msgs.error_cfpwd}" /> 							        		        
+							</h:panelGrid>
+						</p:fieldset>
+						<p:fieldset legend="#{msgs.Acc_legend3}"> 
+								<h:panelGrid columns="2">
+								 	<h:outputLabel value="#{msgs.Institut_lbl_mail}"/>   
+									<p:inputText id="txtemail" required="false" size="40" requiredMessage="Veuiller saisir votre adresse email" validatorMessage="#{msgs.Valid_mail} " value="#{accountController.mail}">
+						        		<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+									</p:inputText>	
+									<h:outputLabel value="#{msgs.Institut_lbl_Av1}"/>       
+							        <p:inputText value="#{accountController.avenue1}" size="40" id="txtAv1" required="true" requiredMessage="#{msgs.error_Av1}" />							      
+							        <h:outputLabel value="#{msgs.Institut_lbl_bp}"/>       
+							        <p:inputText value="#{accountController.pbox}" size="15" id="txtBp"/>  
+							        <h:outputLabel value="#{msgs.Institut_lbl_vil}"/>       
+							        <p:inputText value="#{accountController.town}" size="15" id="txtVil" required="true" requiredMessage="#{msgs.error_vil}" />
+							        <h:outputLabel value="#{msgs.Institut_lbl_P}"/>       
+							        <p:inputText value="#{accountController.country}" size="15" id="txtPays" required="true" requiredMessage="#{msgs.error_P}" />
+						        </h:panelGrid>
+						   </p:fieldset><br/>
+						
+						   
+					<div>
+						<p:commandButton value="#{msgs.bouton_valider}" actionListener="#{accountController.updateCustomer}" update="growl"/>       					     					
+					</div> 
+					</p:panel>						
+					
+				</h:form><br/>				
+			
+			</ui:define>  		
+	   		
+	   	</ui:composition>
+</h:body>
+</html>

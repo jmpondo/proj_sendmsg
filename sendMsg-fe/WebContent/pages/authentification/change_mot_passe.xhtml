@@ -1,0 +1,41 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+		<h:form id="frmChangeMotPasse">
+
+		<p:dialog header="#{msgs.utilisateur_changer_password}" 
+			widgetVar="mdpDialog"  width="400" height="100"
+			modal="true" 
+			zindex="20" 
+			id="idMdpDialog"
+			closable="true">
+			<p:outputPanel id="dialogOutputPanel" styleClass="MdpPanel" >
+				<p:outputPanel rendered="false" id="contentPanel" binding="#{authentification.mdpContentPanel}">				
+				<h:panelGrid columns="2">
+					<h:outputText value="#{msgs.utilisateur_ancien_password}" />
+					<h:inputSecret value="#{changeMotPasseController.user.password}" styleClass="champText"/>
+					<h:outputText value="#{msgs.utilisateur_nouveau_password}" />
+					<h:inputSecret value="#{changeMotPasseController.newPassword}" styleClass="champText" validatorMessage="#{msgs.invalid_password}">
+						<f:validator validatorId="c2c.validator.UserValidator"></f:validator>
+					</h:inputSecret>
+					<h:outputText value="#{msgs.utilisateur_confirmation_password}" /> 
+					<h:inputSecret value="#{changeMotPasseController.newPasswordConfirm}" styleClass="champText"/>				<h:outputText value="" />
+					<h:panelGroup styleClass="positionBouton">					
+					<p:commandButton value="#{msgs.bouton_valider}" ajax="true" 
+						actionListener="#{changeMotPasseController.validate}" oncomplete="handleLoginRequest(xhr, status, args)"
+						update="frmChangeMotPasse:dialogOutputPanel :frmAuthentication:growl :frmAffectationsUser:outputPanel"/>
+					<p:commandButton value="#{msgs.bouton_annuler}"
+						actionListener="#{changeMotPasseController.onClose}"
+						update="frmChangeMotPasse:dialogOutputPanel "
+						oncomplete="mdpDialog.hide()" />
+				</h:panelGroup>
+				</h:panelGrid>
+				
+				</p:outputPanel>	
+			</p:outputPanel>
+		</p:dialog>
+		
+	</h:form>
+</div>

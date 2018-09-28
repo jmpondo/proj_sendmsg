@@ -1,0 +1,24 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+		<h:form id="frmAdminLog">
+
+			<p:dialog header="CONNEXION ADMINISTRATEUR" widgetVar="dlgAdmin" resizable="false">
+				<p:outputPanel id="dialogOutputPanel" styleClass="MdpPanel" >
+			        <h:panelGrid columns="2" cellpadding="5">
+			            <h:outputLabel for="username" value="Username:" />
+			            <p:inputText id="username" value="#{userLoginView.username}" required="true" label="username" />
+			 
+			            <h:outputLabel for="password" value="Password:" />
+			            <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
+			 
+			            <f:facet name="footer">
+			                <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}" />
+			            </f:facet>  
+			        </h:panelGrid>
+		        </p:outputPanel>
+		    </p:dialog>
+	</h:form>
+</div>

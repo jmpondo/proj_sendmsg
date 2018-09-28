@@ -1,0 +1,160 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+    	<div>
+       					<p:growl id="growl" sticky="true" showDetail="true"/>
+       					<h:form id="frmMsg">
+       						<div>
+    							<p:commandButton process="singleDT" image="ui-icon-plus" update=":frmMsg:addGateway"  value="Creer" oncomplete="PF('addGatewayDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-pencil" update=":frmUpdate:updateGateway" value="Modifier" oncomplete="PF('updateGatewayDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-search" update=":frmMsg:gatewayDetail" value="Visualiser" oncomplete="PF('gatewayDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-trash" actionListener="#{gatewayView.removeGateway}" update=":frmMsg:singleDT" value="Supprimer"/>
+    							
+    						</div>
+	                        <p:dataTable id="singleDT" var="g" value="#{gatewayView.gatewayList}" selectionMode="single" selection="#{gatewayView.selectedGateway}" rowKey="#{g.id}"
+	                                     rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                                     rowsPerPageTemplate="5,10,15" emptyMessage="No campagne found with given criteria" reflow="true">
+	                            <f:facet name="header">
+	                                LISTE DES GATEWAYS
+	                            </f:facet>
+	
+	                            <p:column headerText="Id" sortBy="#{g.id}">
+	                                <h:outputText value="#{g.id}" />
+	                            </p:column>
+	                             <p:column headerText="Code" sortBy="#{g.code}">
+	                                <h:outputText value="#{g.code}" />
+	                            </p:column>	
+	                            <p:column headerText="URL serveur" sortBy="#{g.apiUrl}">
+	                                <h:outputText value="#{g.apiUrl}" />
+	                            </p:column>
+	                            <p:column headerText="Username" sortBy="#{g.username}">
+	                                <h:outputText value="#{g.username}" />
+	                            </p:column>	
+	                            <p:column headerText="Password" sortBy="#{g.password}">
+	                                <h:outputText value="#{g.password}" />
+	                            </p:column>	                                                                               
+	                        </p:dataTable>							
+                        <p:dialog header="INFORMATION GATEWAY" widgetVar="gatewayDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="600" height="400" responsive="true">
+	                            <p:outputPanel id="gatewayDetail" style="text-align:center;">
+	                                <p:panelGrid  columns="2" rendered="#{not empty gatewayView.selectedGateway}">
+	                                    <h:outputText value="Id:" />
+	                                    <h:outputText value="#{gatewayView.selectedGateway.id}" />	
+	                                    <h:outputText value="Code" />
+	                                    <h:outputText value="#{gatewayView.selectedGateway.code}" />	
+	                                    <h:outputText value="Url serveur" />
+	                                    <h:outputText value="#{gatewayView.selectedGateway.apiUrl}" />	
+	                                    <h:outputText value="Username" />
+	                                    <h:outputText value="#{gatewayView.selectedGateway.username}" />
+	                                    <h:outputText value="Password" />
+	                                    <h:outputText value="#{gatewayView.selectedGateway.password}" />	                                    
+	                                </p:panelGrid>
+	                            </p:outputPanel>
+	                        </p:dialog>
+	                        <p:dialog header="CREATION GATEWAY" widgetVar="addGatewayDialog" modal="true"  showEffect="fade" hideEffect="fade" resizable="true" width="600" height="300" responsive="true">
+	                        	<p:outputPanel id="addGateway" style="text-align:center;">
+			                        <div class="ContainerIndent ui-fluid">
+					                	<p:panel>
+					                		<div class="Container">
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Créer une gateway" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+							                                <p:inputText value="#{gatewayView.gateway.code}" placeholder="Code"/>
+							                                <p:inputText value="#{gatewayView.gateway.apiUrl}" placeholder="URL Serveur"/>
+							                                <p:inputText value="#{gatewayView.gateway.username}" placeholder="Username"/>
+							                                <p:inputText value="#{gatewayView.gateway.password}" placeholder="Password"/>							                                            
+							                            </p:panelGrid>
+							                        </div>
+							                    </div>						                   
+							                </div>
+					                   		<p:separator/>
+					                 		<div class="EmptyBox10"></div>
+			                    			<p:commandButton  value="Valider" ajax="true" actionListener ="#{gatewayView.creerGateway}"/>
+			                    		</p:panel>
+					                </div>	
+	                        	</p:outputPanel>                       	
+	                   	</p:dialog>	
+	                   </h:form>	
+	                   <h:form id="frmUpdate">
+	                   			 <p:dialog header="MODIFICATION GATEWAY" styleClass="FontBold Fs18 hardblue" widgetVar="updateGatewayDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="600" height="300" responsive="true">
+	                        		<p:outputPanel id="updateGateway" style="text-align:center;">
+	                        		   <div class="ContainerIndent ui-fluid">
+					                	<p:panel>
+					                		<div class="Container">
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Modification d'une gateway" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+							                                <p:inputText value="#{gatewayView.selectedGateway.code}" />	
+						                                    
+						                                    <p:inputText value="#{gatewayView.selectedGateway.apiUrl}" />	
+						                                    
+						                                    <p:inputText value="#{gatewayView.selectedGateway.username}" />
+						                                   
+						                                    <p:inputText value="#{gatewayView.selectedGateway.password}" />				                                   
+						                                				                                
+							                            </p:panelGrid>
+							                        </div>
+							                    </div>
+							                    
+							                </div>
+					                   		<p:separator/>
+					                 		<div class="EmptyBox10"></div>
+			                    			<p:commandButton  value="Valider" ajax="true" actionListener ="#{gatewayView.updateGateway}"/>
+			                    		</p:panel>
+					                </div>		 	
+	                        	</p:outputPanel>                       	
+	                   		</p:dialog>	
+			             </h:form>
+		            </div>
+    
+    </ui:define>
+</ui:composition>

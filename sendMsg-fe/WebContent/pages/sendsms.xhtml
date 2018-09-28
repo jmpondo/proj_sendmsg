@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ContainerIndent">
+          <p:growl id="growl" sticky="true" showDetail="true"/>
+          <h:form id="frmUplaod" enctype="multipart/form-data">
+	            <p:panel header="Upload File">	            	
+	                <div class="ContainerIndent">
+	                	   <div class="Container100">
+	                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">	                              
+	                                <p:outputLabel for="camp" value="Campagne: " />
+		                            <p:selectOneMenu id="camp" value="#{fileUploadView.campId}" style="width:150px">
+										<f:selectItem itemLabel="Select One Campagne" itemValue="#{null}" noSelectionOption="true"/>
+	            						<f:selectItems value="#{fileUploadView.campagnes}" var="c" itemLabel="#{c.nomCampagne}" itemValue="#{c.id}"/>              
+	        						<p:ajax event="itemSelect" update="growl"/>
+	        						</p:selectOneMenu> 
+	        							                                
+	                                <p:outputLabel for="gate" value="Passerelle SMS: " />
+	                                <p:selectOneMenu id="gate" value="#{fileUploadView.gateId}" style="width:150px">
+										<f:selectItem itemLabel="Select One Gateway" itemValue="#{null}" noSelectionOption="true"/>
+	            						<f:selectItems value="#{fileUploadView.gateways}" var="g" itemLabel="#{g.code}" itemValue="#{g.id}"/>  
+	            						<p:ajax event="itemSelect" update="growl"></p:ajax>            
+	        						</p:selectOneMenu>	                                
+	                            </p:panelGrid>
+	                 		</div>
+
+	                       <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
+           update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(csv|jpe?g|png)$/" />
+	                       <p:growl id="messages" showDetail="true" />	
+	                </div>
+	            </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

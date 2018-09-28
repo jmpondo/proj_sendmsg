@@ -1,0 +1,42 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="frmAffectationsUser">		
+			<p:dialog header="#{msgs.dialog_header_affectation}" widgetVar="dialog" modal="true"
+				zindex="20" id="affectationsUserPanel" width="400" height="90"
+				closable="true">
+				<p:outputPanel id="outputPanel">
+					<p:messages></p:messages>				
+					<p:dataTable id="tbAffectations" var="affectation" value="#{chooseProfile.profiles}" selectionMode="single" lazy="false" 
+									rowKey="#{affectation.id}">
+						<p:ajax event="rowSelect" listener="#{chooseProfile.validate}"/>       
+        				<p:column>						
+							<f:facet name="header">
+								<h:outputText value="ID" />
+							</f:facet>
+							<h:outputText value="#{affectation.id}" />
+						</p:column>
+						<p:column>						
+							<f:facet name="header">
+								<h:outputText value="code" />
+							</f:facet>
+							<h:outputText value="#{affectation.code}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Fonction" />
+							</f:facet>
+							<h:outputText value="#{affectation.description}" />
+						</p:column>
+						<!-- <p:column style="width:32px;text-align: center">
+            				 <p:commandButton icon="ui-icon-search" title="View" actionListener="#{chooseProfile.validate}">
+                				<f:setPropertyActionListener target="#{chooseProfile.profile.id}"  value="#{affectation.id}"  />
+            				</p:commandButton>
+        				</p:column> -->
+					</p:dataTable>
+				</p:outputPanel>
+			</p:dialog>		
+	</h:form>
+</div>

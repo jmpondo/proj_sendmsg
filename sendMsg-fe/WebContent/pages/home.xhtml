@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/layout.xhtml">
+		<ui:define name="content">
+		<nav class="navbar navbar-default navbar-static-top" col-sm="12" col-md="11"/>		
+		<h:form>
+			<b:container fluid="true">	
+		        <b:row>
+		           <b:column col-sm="2" col-md="1" styleClass="sidebar"/>		            
+		         	                 
+		               <b:column col-sm="8" offset-sm="3" col-md="9" offset="2" styleClass="main"> 
+
+		                    <b:row styleClass="placeholders">
+		                    <div class="row">
+			
+									<div class="col-md-4">
+										<div class="panel panel-success">
+											<div class="panel-heading">
+												
+												<a href="product.php" style="text-decoration:none;color:black;">
+													Total Product
+													<span class="badge pull pull-right"><?php echo $countProduct; ?></span>	
+												</a>
+												
+											</div> <!--/panel-hdeaing-->
+										</div> <!--/panel-->
+									</div> <!--/col-md-4-->
+								
+										<div class="col-md-4">
+											<div class="panel panel-info">
+											<div class="panel-heading">
+												<a href="orders.php?o=manord" style="text-decoration:none;color:black;">
+													Total Orders
+													<span class="badge pull pull-right"><?php echo $countOrder; ?></span>
+												</a>
+													
+											</div> <!--/panel-hdeaing-->
+										</div> <!--/panel-->
+										</div> <!--/col-md-4-->
+								
+									<div class="col-md-4">
+										<div class="panel panel-danger">
+											<div class="panel-heading">
+												<a href="product.php" style="text-decoration:none;color:black;">
+													Low Stock
+													<span class="badge pull pull-right"><?php echo $countLowStock; ?></span>	
+												</a>
+												
+											</div> <!--/panel-hdeaing-->
+										</div> <!--/panel-->
+									</div> <!--/col-md-4-->
+								
+									<div class="col-md-4">
+															
+									</div>								
+									<div class="col-md-8">							
+									
+								
+									</div>
+								</div>
+		                    </b:row>                 
+		               </b:column>
+		               <b:column col-sm="2" col-md="1" styleClass="sidebar"/>	
+		            </b:row> 
+		            </b:container>	 
+		          </h:form>
+		   </ui:define>
+	</ui:composition>
+</h:body>
+</html>

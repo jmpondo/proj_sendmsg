@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+     <h:head>
+     	<title><h:outputText value="AUTHENTIFICATION" /></title>
+     <style>
+		.ui-widget {
+   			font-size: 11px !important;
+		}
+		.champText{
+				width:190px;
+		}
+		.positionBouton{
+			float:right;
+		}
+		.logo{
+			width:30%;
+			text-align: left;
+			margin: 8% 35% 2% 35%;		
+		}
+		.loginPanel{
+			width:30%;
+			margin-left:35%;
+			height:20%;			
+		}
+		.MdpPanel{
+			width:100%;
+			margin:0;
+			background-color: #F1F1F1;		
+		}
+		.ui-panel .ui-panel-content {
+		    background: none repeat scroll 0 0 transparent;
+		    border: 0 none;
+		    padding: 1px 1px;
+		}
+	</style>	
+	
+  
+     </h:head>
+	<body style="">		
+		<h:form id="frmAuthentication">
+			<p:growl id="growl"/>
+			<p:panel header="Authentification"  styleClass="loginPanel">
+				<table cellspacing="4" cellpadding="2" style="width:100%; margin: 0; background-color: #F1F1F1;">						
+				
+				<tr>
+					<td style="width: 25%; font-weight: bold;"><h:outputText value="Login" /></td>
+					<td><h:inputText id="txtLogin" value="#{authentification.login}" styleClass="champText"/></td>
+				</tr>
+				<tr>
+					<td style="width: 25%; font-weight: bold;"><h:outputText value="Password" /></td>
+					<td><h:inputSecret id="txtPwd" value="#{authentification.password}" styleClass="champText"/></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+					<p:commandButton value="Connecter" actionListener="#{authentification.loginAction}" 
+					oncomplete="handleLoginRequest(xhr, status, args)" ajax="true"  update="growl :frmChangeMotPasse:dialogOutputPanel :frmAffectationsUser:outputPanel"/>
+					 <p:commandButton value="Annuler"/>
+					</td>
+				</tr>								
+				</table>
+			</p:panel>
+				
+		</h:form>	
+		<ui:include src="change_mot_passe.xhtml"></ui:include>
+		<ui:include src="chooseProfile.xhtml"></ui:include>
+		<script type="text/javascript">  
+		    function handleLoginRequest(xhr, status, args) {  		    	
+		        if(args.validationFailed || !args.loggedIn) {
+		        } else {
+		        	if(args.mdp){
+		        		
+		        		PF('mdpDialog').show();
+		        	}
+		        	else{
+		        		
+		            	PF('dialog').show();   
+		        	}
+		        }  
+		        
+		    } 
+	   </script>
+	</body>
+</html>

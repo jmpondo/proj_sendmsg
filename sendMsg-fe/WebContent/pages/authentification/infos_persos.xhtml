@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+	<h:form id="frmInfosPersos">
+
+		<p:dialog header="#{msgs.dialog_header_profil_personnel}" widgetVar="infosPersoDialog"
+			visible="false" modal="true" zindex="20" id="infosPersosPanel"
+			closable="true" width="450" height="400">
+			<p:outputPanel id="dialogOutputPanel">
+				<p:messages></p:messages>
+				<p:tabView id="grid" rendered="false" dynamic="true" cache="false">
+					<p:tab title="#{msgs.dialog_tab_generalite}" id="tab1">
+						<h:panelGrid columns="2">
+							<h:outputText value="#{msgs.utilisateur_nom}" />
+							<h:inputText value="#{infosPersos.mySession.utilisateur.nom}" disabled="true" styleClass="champText"/>
+							<h:outputText value="#{msgs.utilisateur_prenom}" />
+							<h:inputText value="#{infosPersos.mySession.utilisateur.prenom}" disabled="true" styleClass="champText"/>
+							<h:outputText value="#{msgs.utilisateur_email}" />
+							<h:inputText value="#{infosPersos.mySession.utilisateur.email}" disabled="true" styleClass="champText"/>
+							<h:outputText value="" />						
+						<h:panelGroup styleClass="positionBouton">
+							<p:commandButton value="#{msgs.bouton_valider}"
+								actionListener="#{infosPersos.validate}" process="tab1"
+								update="frmInfosPersos:dialogOutputPanel, frmMenu:lbConnectedUser"
+								oncomplete="" />
+							<p:commandButton value="#{msgs.bouton_annuler}"
+								actionListener="#{infosPersos.onClose}"
+								update="frmInfosPersos:dialogOutputPanel" process="tab1"
+								oncomplete="infosPersoDialog.hide()" />
+						</h:panelGroup>
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="#{msgs.dialog_tab_secutite}" id="tabSecurite">
+						<h:panelGrid columns="2">
+							<h:outputText value="#{msgs.utilisateur_login}" />
+							<h:inputText value="#{infosPersos.mySession.utilisateur.login}" disabled="true" styleClass="champText"/>
+							<h:outputText value="#{msgs.utilisateur_password_encours}" />
+							<h:inputSecret
+								value="#{infosPersos.currentPassword}" styleClass="champText"/>
+							<h:outputText value="#{msgs.utilisateur_nouveau_password}" />
+							<h:inputSecret
+								value="#{infosPersos.newPassword}" styleClass="champText" validatorMessage="#{msgs.invalid_password}">
+								<f:validator validatorId="c2c.validator.UserValidator"></f:validator>
+							</h:inputSecret>
+							<h:outputText value="#{msgs.utilisateur_nouveau_password_bis}" styleClass="champText"/>
+							<h:inputSecret
+								value="#{infosPersos.newPasswordBis}" styleClass="champText"/>
+							<h:outputText value="" />
+						<h:panelGroup styleClass="positionBouton">
+							<p:commandButton value="#{msgs.bouton_valider}"
+								actionListener="#{infosPersos.validateSecurity}" process="frmInfosPersos:tabSecurite"
+								update="frmInfosPersos:dialogOutputPanel, frmMenu:lbConnectedUser"
+								oncomplete=""/>
+							<p:commandButton value="#{msgs.bouton_annuler}"
+								actionListener="#{infosPersos.onClose}"
+								update="frmInfosPersos:dialogOutputPanel" process="frmInfosPersos:tabSecurite"
+								oncomplete="infosPersoDialog.hide()" />
+						</h:panelGroup>
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="#{msgs.dialog_tab_preference}" id="tab2">
+						<h:panelGrid columns="2" >
+							<h:outputText value="#{msgs.preference_langue}" />
+							<h:selectOneMenu value="#{infosPersos.preferences['LANGUE']}" styleClass="champText">
+								<f:selectItems value="#{infosPersos.langues}" var="langue" itemLabel="#{langue.libelle}" itemValue="#{langue.code}"/>
+							</h:selectOneMenu>	
+						<h:outputText value="" />					
+						<h:panelGroup styleClass="positionBouton">
+							<p:commandButton value="#{msgs.bouton_valider}"
+								actionListener="#{infosPersos.validatePreferences}" process="tab2"
+								update="frmInfosPersos:dialogOutputPanel, frmMenu:lbConnectedUser"
+								oncomplete="" />
+							<p:commandButton value="#{msgs.bouton_annuler}"
+								actionListener="#{infosPersos.onClose}"
+								update="frmInfosPersos:dialogOutputPanel" process="tab2"
+								oncomplete="infosPersoDialog.hide()" />
+						</h:panelGroup>
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+</div>

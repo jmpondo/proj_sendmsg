@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+     <h:head>
+     	<title><h:outputText value="Creation Espace" /></title>
+     <style>
+		.ui-widget {
+   			font-size: 11px !important;
+		}
+		.champText{
+				width:190px;
+		}
+		.positionBouton{
+			float:right;
+		}
+		.logo{
+			width:3%;
+			text-align: left;
+			margin: 1% 20% 1% 20%;		
+		}
+		.loginPanel{
+			width:60%;
+			margin-left:25%;
+			height:20%;			
+		}
+		.fieldsetPan{
+			background-color: #F1F1F1;
+		}
+		.ui-panel .ui-panel-content {
+		    background: none repeat scroll 0 0 transparent;
+		    border: 0 none;
+		    padding: 1px 1px;
+		}
+	</style>	
+	
+	
+     </h:head>
+	<body style="">		
+		
+
+			<div class="logo">
+				<h:graphicImage value="/images/logo.jpg" />
+			</div>
+						
+			
+		<p:panel header="Creer votre espce" styleClass="loginPanel">		
+       		<h:panelGrid columns="2">
+       		<h:panelGroup>
+        	<p:fieldset legend="ESPACE FACTURIERS" styleClass="fieldsetPan">
+				<h:form id="frmBillerSpace"> 
+					<p:growl id="growl1"/>
+        			<h:outputText value="Nos Services:
+								- Chargement de vos factures pour paiement par vos client
+								- Saisie manuelle de vos factures
+								- Tableau de bord de suivi des règlements de vos factures
+							Si vous voulez bénéficier de nos services en tant facturier, alors soumettez votre demande souscription en cliquant sur le bouton ci-dessous"/>
+					<br/><br/> 
+					<p:commandButton value="Demande de souscription " actionListener="#{authentification.showSubscribe}"/>
+        		</h:form>
+        	</p:fieldset>
+        	</h:panelGroup>
+        	<h:panelGroup>       
+       			 <p:fieldset legend="ESPACE CLIENTS" styleClass="fieldsetPan">        
+		
+					<h:form id="frmCustSpace">
+						<p:growl id="growl"/>
+        					<h:outputText value="Si vous n'avez pas encore de compte dans notre système en tant que client, Veuillez vous identifier afin de faciliter la création de 
+							votre espace client pour un meilleur suivi de vos factures"/>
+							<table cellspacing="4" cellpadding="2" style="width:100%; margin: 0; background-color: #F1F1F1;">
+								<tr>
+									<td style="width: 25%; font-weight: bold;"><h:outputText value="Numero Téléphone:" /></td>
+									<td><h:inputText id="txtTel" value="#{authentification.phoneCust}" styleClass="champText" required="true" requiredMessage="Veuillez saisir votre numero téléphone"/></td>
+								</tr>
+								<tr>
+									<td style="width: 25%; font-weight: bold;"><h:outputText value="Code Abonnement:" /></td>
+									<td><h:inputText id="txtCode" value="#{authentification.codeCust}" styleClass="champText" required="true" requiredMessage="Veuillez saisir votre code Abonné"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td>
+									<p:commandButton value="Valider" actionListener="#{authentification.authentificateCust}" update="growl"/>
+									
+									</td>
+								</tr>
+							</table>
+        			</h:form>
+        		</p:fieldset>
+        	</h:panelGroup>
+        </h:panelGrid>
+   </p:panel> 
+	</body>
+</html>

@@ -1,0 +1,170 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+       				<div>
+       					<p:growl id="growl" sticky="true" showDetail="true"/>
+       					<h:form id="frmMsg">
+       						<div>
+    							<p:commandButton process="singleDT" image="ui-icon-plus" update=":frmMsg:addCampagne"  value="Creer" oncomplete="PF('addCampagneDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-pencil" update=":frmUpdate:updateCampagne" value="Modifier" oncomplete="PF('updateCampagneDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-search" update=":frmMsg:campagneDetail" value="Visualiser" oncomplete="PF('campagneDialog').show()" />
+    							<p:commandButton process="singleDT" image="ui-icon-trash" actionListener="#{campController.removeCampagne}" update=":frmMsg:singleDT" value="Supprimer"/>
+    							
+    						</div>
+	                        <p:dataTable id="singleDT" var="c" value="#{campController.campagneList}" selectionMode="single" selection="#{campController.selectedCampagne}" rowKey="#{c.id}"
+	                                     rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                                     rowsPerPageTemplate="5,10,15" emptyMessage="No campagne found with given criteria" reflow="true">
+	                            <f:facet name="header">
+	                                LISTE DES CAMPAGNES
+	                            </f:facet>
+	
+	                            <p:column headerText="Id" sortBy="#{c.id}">
+	                                <h:outputText value="#{c.id}" />
+	                            </p:column>
+	                             <p:column headerText="Code" sortBy="#{c.codeCampagne}">
+	                                <h:outputText value="#{br.description}" />
+	                            </p:column>	
+	                            <p:column headerText="MessageFR" sortBy="#{c.message.messageFr}">
+	                                <h:outputText value="#{c.message.messageFr}" />
+	                            </p:column>
+	                            <p:column headerText="MessageEN" sortBy="#{c.message.messageEn}">
+	                                <h:outputText value="#{c.message.messageEn}" />
+	                            </p:column>	                                                    
+	                        </p:dataTable>							
+                        <p:dialog header="INFORMATION CAMPAGNE" widgetVar="campagneDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="600" height="200" responsive="true">
+	                            <p:outputPanel id="campagneDetail" style="text-align:center;">
+	                                <p:panelGrid  columns="2" rendered="#{not empty campController.selectedCampagne}">
+	                                    <h:outputText value="Id:" />
+	                                    <h:outputText value="#{campController.selectedCampagne.id}" />	
+	                                    <h:outputText value="Code" />
+	                                    <h:outputText value="#{campController.selectedCampagne.codeCampagne}" />	
+	                                    <h:outputText value="Message FR" />
+	                                    <h:outputText value="#{campController.selectedCampagne.message.messageFr}" />	
+	                                    <h:outputText value="Message EN" />
+	                                    <h:outputText value="#{campController.selectedCampagne.message.messageEn}" />
+	                                </p:panelGrid>
+	                            </p:outputPanel>
+	                        </p:dialog>
+	                        <p:dialog header="CREATION D'UNE CAMPAGNE" widgetVar="addCampagneDialog" modal="true"  showEffect="fade" hideEffect="fade" resizable="true" width="900" height="400" responsive="true">
+	                        	<p:outputPanel id="addCampagne" style="text-align:center;">
+			                        <div class="ContainerIndent ui-fluid">
+					                	<p:panel>
+					                		<div class="Container">
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Campagne" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+							                                <p:inputText value="#{campController.campagne.codeCampagne}" placeholder="Code campagne"/>
+							                                <p:inputText value="#{campController.campagne.nomCampagne}" placeholder="Nom Campagne"/>					                                
+							                            </p:panelGrid>
+							                        </div>
+							                    </div>
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Template message" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <div class="ContainerIndent">
+							                                <p:inputTextarea rows="5" value="#{campController.message.messageFr}" placeholder="Message en FR"/>
+							                            </div>
+							                            <div class="ContainerIndent">
+							                                <p:inputTextarea rows="5" value="#{campController.message.messageEn}" placeholder="Message en EN"/>
+							                            </div>
+							                        </div>
+							                    </div>
+							                </div>
+					                   		<p:separator/>
+					                 		<div class="EmptyBox20"></div>
+			                    			<p:commandButton  value="Valider" ajax="true" actionListener ="#{campController.creerCampagne}"/>
+			                    		</p:panel>
+					                </div>	
+	                        	</p:outputPanel>                       	
+	                   	</p:dialog>	
+	                   </h:form>	
+	                   <h:form id="frmUpdate">
+	                   			 <p:dialog header="MODIFICATION CAMPAGNE" styleClass="FontBold Fs18 hardblue" widgetVar="updateCampagneDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="900" height="400" responsive="true">
+	                        		<p:outputPanel id="updateCampagne" style="text-align:center;">
+	                        		   <div class="ContainerIndent ui-fluid">
+					                	<p:panel>
+					                		<div class="Container">
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Campagne" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+							                                <p:inputText value="#{campController.selectedCampagne.codeCampagne}" placeholder="Code campagne"/>
+							                                <p:inputText value="#{campController.selectedCampagne.nomCampagne}" placeholder="Nom Campagne"/>					                                
+							                            </p:panelGrid>
+							                        </div>
+							                    </div>
+							                    <div class="Container50 Responsive50">
+							                        <div class="ContainerIndent"><h:outputText value="Template message" styleClass="FontBold Fs18 hardblue"></h:outputText></div>
+							                        <div class="Container100">
+							                            <div class="ContainerIndent">
+							                                <p:inputTextarea rows="5" value="#{campController.selectedCampagne.message.messageFr}" placeholder="Message en FR"/>
+							                            </div>
+							                            <div class="ContainerIndent">
+							                                <p:inputTextarea rows="5" value="#{campController.selectedCampagne.message.messageEn}" placeholder="Message en EN"/>
+							                            </div>
+							                        </div>
+							                    </div>
+							                </div>
+					                   		<p:separator/>
+					                 		<div class="EmptyBox20"></div>
+			                    			<p:commandButton  value="Valider" ajax="true" actionListener ="#{campController.updateCampagne}"/>
+			                    		</p:panel>
+					                </div>		 	
+	                        	</p:outputPanel>                       	
+	                   		</p:dialog>	
+			             </h:form>
+		            </div>
+		            
+                
+    </ui:define>
+
+</ui:composition>
